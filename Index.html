@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عداد الزوار بالليزر | Laser Counter v2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#050b18;color:#e2e8f0;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:0.25;z-index:0;animation:float 9s ease-in-out infinite alternate}
+.orb1{width:400px;height:400px;background:#00e5ff;top:-100px;right:-100px}
+.orb2{width:350px;height:350px;background:#7c4dff;bottom:-80px;left:-80px;animation-delay:3s}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(40px)}}
+.wrap{position:relative;z-index:1;max-width:1050px;margin:0 auto;padding:25px 18px}
+.hero{text-align:center;padding:55px 20px;border:1px solid rgba(0,229,255,0.3);border-radius:24px;background:linear-gradient(160deg,rgba(0,229,255,0.08),rgba(124,77,255,0.08));backdrop-filter:blur(10px);position:relative;overflow:hidden;margin-bottom:35px}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#00e5ff,#ff1744,#00e5ff,transparent);animation:scan 3s linear infinite}
+@keyframes scan{from{background-position:0 0}to{background-position:400px 0}}
+.hero h1{font-size:32px;font-weight:900;background:linear-gradient(90deg,#00e5ff,#80d8ff,#7c4dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .en{display:inline-block;letter-spacing:5px;color:#00e5ff;font-size:12px;font-weight:700;margin:10px 0;border:1px solid rgba(0,229,255,0.4);padding:5px 18px;border-radius:20px}
+.hero p{color:#94a3b8;font-size:14px;margin-top:8px}
+.chip{display:inline-block;margin:6px 4px 0;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700}
+.c1{background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.4)}
+.c2{background:rgba(255,23,68,0.15);color:#ff5252;border:1px solid rgba(255,23,68,0.4)}
+.c3{background:rgba(124,77,255,0.15);color:#b388ff;border:1px solid rgba(124,77,255,0.4)}
+.sec{margin-bottom:35px}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.sec-head .line{flex:1;height:2px;background:linear-gradient(90deg,rgba(0,229,255,0.5),transparent)}
+.sec-head h2{font-size:21px;font-weight:900;color:#00e5ff;display:flex;align-items:center;gap:10px}
+.sec-head h2 .ico{width:42px;height:42px;border-radius:12px;background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.4);display:flex;align-items:center;justify-content:center;font-size:20px}
+.glass{background:rgba(15,25,45,0.6);border:1px solid rgba(0,229,255,0.2);border-radius:18px;padding:22px;backdrop-filter:blur(8px)}
+.idea-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.idea{border-radius:16px;padding:20px;text-align:center;background:rgba(15,25,45,0.6);border:1px solid rgba(0,229,255,0.2);transition:0.35s;position:relative;overflow:hidden}
+.idea::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00e5ff,#7c4dff);opacity:0;transition:0.35s}
+.idea:hover{transform:translateY(-6px);border-color:rgba(0,229,255,0.6);box-shadow:0 12px 30px rgba(0,229,255,0.15)}
+.idea:hover::before{opacity:1}
+.idea .em{font-size:34px}
+.idea h3{color:#00e5ff;font-size:15px;margin:10px 0 6px}
+.idea p{font-size:12.5px;color:#94a3b8;line-height:1.8}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.comp{background:rgba(15,25,45,0.6);border:1px solid rgba(0,229,255,0.2);border-radius:18px;padding:18px;display:flex;gap:14px;align-items:center;transition:0.35s}
+.comp:hover{border-color:#00e5ff;transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,229,255,0.15)}
+.comp img{width:80px;height:80px;object-fit:contain;background:#fff;border-radius:12px;border:2px solid #00e5ff;padding:4px;flex-shrink:0}
+.comp .inf{flex:1}
+.comp h4{color:#00e5ff;font-size:14.5px}
+.comp .md{display:inline-block;font-size:10.5px;color:#7c4dff;border:1px solid rgba(124,77,255,0.5);padding:2px 10px;border-radius:12px;margin:5px 0;font-weight:700}
+.comp p{font-size:12px;color:#94a3b8;line-height:1.6}
+.comp .pr{background:linear-gradient(135deg,#00e5ff,#7c4dff);color:#050b18;font-weight:900;padding:5px 14px;border-radius:16px;font-size:13px;white-space:nowrap}
+.wire-table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.wire-table th{text-align:center;color:#00e5ff;font-size:13px;padding:8px;border-bottom:2px solid rgba(0,229,255,0.3)}
+.wire-table td{text-align:center;background:rgba(15,25,45,0.7);padding:11px 8px;font-size:12.5px;color:#cbd5e1}
+.wire-table tr td:first-child{border-radius:0 12px 12px 0;font-weight:700;color:#e2e8f0}
+.wire-table tr td:last-child{border-radius:12px 0 0 12px}
+.wire-table tr:hover td{background:rgba(0,229,255,0.08)}
+.p{display:inline-block;padding:3px 13px;border-radius:9px;font-weight:700;font-size:11.5px;color:#fff}
+.pv{background:#b71c1c}.pg{background:#455a64}.ps{background:#0d47a1}.pi{background:#4a148c}.pa{background:#00695c}
+.pard{background:#e53935;box-shadow:0 0 10px rgba(229,57,53,0.6)}
+.code{background:#0a0f1e;border:1px solid rgba(0,229,255,0.35);border-radius:16px;overflow:hidden;direction:ltr;text-align:left}
+.code-bar{display:flex;align-items:center;gap:7px;background:#0f172a;padding:10px 16px;border-bottom:1px solid rgba(0,229,255,0.2)}
+.d{width:11px;height:11px;border-radius:50%}
+.code-bar span{margin-left:auto;font-size:11px;color:#64748b;font-family:monospace}
+.code pre{padding:20px;font-family:'Consolas','Courier New',monospace;font-size:12.5px;line-height:1.75;color:#dbeafe;white-space:pre-wrap}
+.k{color:#82aaff}.s{color:#c3e88d}.n{color:#f78c6c}.f{color:#ffcb6b}.c{color:#546e7a}.d2{color:#c792ea}
+.timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;counter-reset:st}
+.tl-card{background:rgba(15,25,45,0.6);border:1px solid rgba(0,229,255,0.2);border-radius:16px;padding:20px 16px;text-align:center;position:relative;transition:0.3s}
+.tl-card:hover{border-color:#00e5ff;transform:translateY(-5px)}
+.tl-card::before{counter-increment:st;content:counter(st);display:flex;width:40px;height:40px;margin:0 auto 12px;align-items:center;justify-content:center;background:linear-gradient(135deg,#00e5ff,#7c4dff);color:#050b18;font-weight:900;font-size:17px;border-radius:50%;box-shadow:0 0 15px rgba(0,229,255,0.5)}
+.tl-card h4{color:#00e5ff;font-size:14px;margin-bottom:6px}
+.tl-card p{font-size:12px;color:#94a3b8;line-height:1.8}
+.out-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.out{background:rgba(15,25,45,0.6);border:1px solid rgba(105,240,174,0.35);border-radius:16px;padding:20px;text-align:center}
+.out .em{font-size:32px}
+.out h4{color:#69f0ae;font-size:14.5px;margin:9px 0 5px}
+.out p{font-size:12px;color:#94a3b8;line-height:1.8}
+.sum{max-width:1050px;margin:0 auto 30px;border-radius:20px;padding:28px;text-align:center;background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(124,77,255,0.15));border:1px solid rgba(0,229,255,0.4);position:relative;z-index:1}
+.sum .l{color:#94a3b8;font-size:14px;font-weight:700}
+.sum .v{font-size:38px;font-weight:900;background:linear-gradient(90deg,#00e5ff,#b388ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+footer{text-align:center;color:#475569;font-size:12px;padding:15px;position:relative;z-index:1}
+@media(max-width:600px){.hero h1{font-size:24px}.comp{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="wrap">
+
+<div class="hero">
+<h1>⚡ عداد الزوار بالليزر</h1>
+<div class="en">LASER VISITOR COUNTER v2.0</div>
+<p>نظام ذكي لعدّ الزوار بالاعتماد على قطع شعاع الليزر</p>
+<span class="chip c1">🔦 استشعار ضوئي</span>
+<span class="chip c2">📢 تنبيه صوتي</span>
+<span class="chip c3">📺 عرض لحظي</span>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h2><span class="ico">💡</span> فكرة المشروع</h2><div class="line"></div></div>
+<div class="idea-grid">
+<div class="idea"><div class="em">🔦</div><h3>الفكرة</h3><p>شعاع ليزر مستمر بين مرسل ومستقبل عند المدخل، وأي جسم يقطعه يسجّل دخول.</p></div>
+<div class="idea"><div class="em">🧠</div><h3>المعالجة</h3><p>الأردوينو يقرأ حالة المستقبل كل لحظة ويميّز بين مرور حقيقي واهتزاز.</p></div>
+<div class="idea"><div class="em">📺</div><h3>العرض</h3><p>شاشة OLED تعرض العدد الإجمالي للزوار بشكل مباشر وواضح.</p></div>
+<div class="idea"><div class="em">📢</div><h3>التنبيه</h3><p>بازر يصدر صوت قصير مع كل زائر كتأكيد صوتي لعملية العد.</p></div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h2><span class="ico">🧩</span> المكونات</h2><div class="line"></div></div>
+<div class="comp-grid">
+
+<div class="comp"><img src="https://kimi-web-img.kimi.ai/img/m.media-amazon.com/15c382bbe83146b4687bbf927d2ee1541b260719.jpg"><div class="inf"><h4>Arduino Uno R3</h4><span class="md">A000066</span><p>المعالج المركزي للمشروع</p></div><div class="pr">450 ج</div></div>
+
+<div class="comp"><img src="https://kimi-web-img.kimi.ai/img/apn089-robodoc-prod.sgp1.cdn.digitaloceanspaces.com/b3e6ec7ddf3a43c8cfaa9681307738a663148490.png"><div class="inf"><h4>KY-008 Laser TX</h4><span class="md">650nm Red</span><p>مصدر الشعاع الأحمر</p></div><div class="pr">60 ج</div></div>
+
+<div class="comp"><img src="https://kimi-web-img.kimi.ai/img/i.ebayimg.com/eeb3e84c31d6acb90260d285dcdc04d05b9d88cb.jpg"><div class="inf"><h4>Laser Receiver</h4><span class="md">3-Pin Sensor</span><p>يكشف قطع الشعاع فوراً</p></div><div class="pr">70 ج</div></div>
+
+<div class="comp"><img src="https://kimi-web-img.kimi.ai/img/robotistan.witcdn.net/5231b8a9c6c4a873f488963bf684ca9ddc014e4f.jpg"><div class="inf"><h4>OLED Display</h4><span class="md">SSD1306 · I2C</span><p>شاشة 0.96" للعرض المباشر</p></div><div class="pr">250 ج</div></div>
+
+<div class="comp"><img src="https://kimi-web-img.kimi.ai/img/cdn11.bigcommerce.com/30801d0bc2b4af4c0df1a18e8f961f464a58a150.jpg"><div class="inf"><h4>Active Buzzer</h4><span class="md">FC-49 · 5V</span><p>تنبيه صوتي لكل زائر</p></div><div class="pr">45 ج</div></div>
+
+<div class="comp"><img src="https://kimi-web-img.kimi.ai/img/www.makerph.com/daaa4e6a49910e1cb242b485217ba56972bbb6f5.webp"><div class="inf"><h4>Jumper Wires F-F</h4><span class="md">Dupont 20cm</span><p>توصيل بدون لحام</p></div><div class="pr">60 ج</div></div>
+
+<div class="comp"><img src="https://kimi-web-img.kimi.ai/img/m.media-amazon.com/797b88439cc7e2976c1647184ccaa19f5bb21e01.jpg"><div class="inf"><h4>9V + DC Jack</h4><span class="md">5.5mm Plug</span><p>طاقة محمولة للعرض</p></div><div class="pr">80 ج</div></div>
+
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h2><span class="ico">🔌</span> جدول التوصيلات</h2><div class="line"></div></div>
+<div class="glass" style="overflow-x:auto">
+<table class="wire-table">
+<tr><th>المكوّن</th><th>رجله</th><th>توصيل بـ Arduino</th><th>لون السلك</th></tr>
+<tr><td>🔦 KY-008</td><td><span class="p pv">VCC</span></td><td><span class="p pard">5V</span></td><td>🔴 أحمر</td></tr>
+<tr><td>🔦 KY-008</td><td><span class="p pg">GND</span></td><td><span class="p pard">GND</span></td><td>⚫ أسود</td></tr>
+<tr><td>🔦 KY-008</td><td><span class="p ps">S</span></td><td><span class="p pa">D9</span></td><td>🔵 أزرق</td></tr>
+<tr><td>👁️ Receiver</td><td><span class="p pv">VCC</span></td><td><span class="p pard">5V</span></td><td>🔴 أحمر</td></tr>
+<tr><td>👁️ Receiver</td><td><span class="p pg">GND</span></td><td><span class="p pard">GND</span></td><td>⚫ أسود</td></tr>
+<tr><td>👁️ Receiver</td><td><span class="p ps">OUT</span></td><td><span class="p pa">D2</span></td><td>🟢 أخضر</td></tr>
+<tr><td>📺 OLED</td><td><span class="p pv">VCC</span></td><td><span class="p pard">5V</span></td><td>🔴 أحمر</td></tr>
+<tr><td>📺 OLED</td><td><span class="p pg">GND</span></td><td><span class="p pard">GND</span></td><td>⚫ أسود</td></tr>
+<tr><td>📺 OLED</td><td><span class="p pi">SCL</span></td><td><span class="p pa">A5</span></td><td>🟣 بنفسجي</td></tr>
+<tr><td>📺 OLED</td><td><span class="p pi">SDA</span></td><td><span class="p pa">A4</span></td><td>🟡 أصفر</td></tr>
+<tr><td>📢 Buzzer</td><td><span class="p ps">I</span></td><td><span class="p pa">D8</span></td><td>🟠 برتقالي</td></tr>
+<tr><td>📢 Buzzer</td><td><span class="p pv">+</span></td><td><span class="p pard">5V</span></td><td>🔴 أحمر</td></tr>
+<tr><td>📢 Buzzer</td><td><span class="p pg">GND</span></td><td><span class="p pard">GND</span></td><td>⚫ أسود</td></tr>
+<tr><td>🔋 بطارية</td><td><span class="p pg">DC Jack</span></td><td><span class="p pard">مدخل الطاقة</span></td><td>—</td></tr>
+</table>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h2><span class="ico">💻</span> كود الأردوينو</h2><div class="line"></div></div>
+<div class="code">
+<div class="code-bar"><div class="d" style="background:#ff5f56"></div><div class="d" style="background:#ffbd2e"></div><div class="d" style="background:#27c93f"></div><span>laser_counter.ino — Arduino IDE</span></div>
+<pre><span class="c">// ============================================</span>
+<span class="c">//  Laser Visitor Counter v2</span>
+<span class="c">// ============================================</span>
+<span class="d2">#include</span> &lt;Wire.h&gt;
+<span class="d2">#include</span> &lt;Adafruit_GFX.h&gt;
+<span class="d2">#include</span> &lt;Adafruit_SSD1306.h&gt;
+
+<span class="d2">#define</span> <span class="f">W</span> <span class="n">128</span>
+<span class="d2">#define</span> <span class="f">H</span> <span class="n">64</span>
+<span class="f">Adafruit_SSD1306</span> <span class="f">oled</span>(<span class="f">W</span>, <span class="f">H</span>, &amp;Wire, -<span class="n">1</span>);
+
+<span class="k">const int</span> LASER = <span class="n">9</span>;   <span class="c">// TX  ← D9</span>
+<span class="k">const int</span> SENSOR = <span class="n">2</span>;  <span class="c">// RX  ← D2</span>
+<span class="k">const int</span> BUZZ  = <span class="n">8</span>;   <span class="c">// Buzzer ← D8</span>
+
+<span class="k">int</span> count = <span class="n">0</span>;
+
+<span class="k">void</span> <span class="f">setup</span>() {
+  <span class="f">pinMode</span>(LASER, OUTPUT);
+  <span class="f">pinMode</span>(SENSOR, INPUT);
+  <span class="f">pinMode</span>(BUZZ, OUTPUT);
+  <span class="f">digitalWrite</span>(LASER, HIGH);      <span class="c">// شعاع شغال</span>
+
+  <span class="f">oled</span>.<span class="f">begin</span>(SSD1306_SWITCHCAPVCC, <span class="n">0x3C</span>);
+  <span class="f">oled</span>.<span class="f">clearDisplay</span>();
+  <span class="f">draw</span>();
+}
+
+<span class="k">void</span> <span class="f">loop</span>() {
+  <span class="k">if</span> (<span class="f">digitalRead</span>(SENSOR) == LOW) {   <span class="c">// الزائر قطع الشعاع</span>
+    count++;
+    <span class="f">tone</span>(BUZZ, <span class="n">1000</span>, <span class="n">200</span>);          <span class="c">// بيب!</span>
+    <span class="f">draw</span>();
+    <span class="f">delay</span>(<span class="n">800</span>);                  <span class="c">// منع العد المزدوج</span>
+  }
+}
+
+<span class="k">void</span> <span class="f">draw</span>() {
+  <span class="f">oled</span>.<span class="f">clearDisplay</span>();
+  <span class="f">oled</span>.<span class="f">setTextColor</span>(WHITE);
+  <span class="f">oled</span>.<span class="f">setTextSize</span>(<span class="n">1</span>);
+  <span class="f">oled</span>.<span class="f">setCursor</span>(<span class="n">30</span>, <span class="n">6</span>);
+  <span class="f">oled</span>.<span class="f">print</span>(<span class="s">"VISITORS"</span>);
+  <span class="f">oled</span>.<span class="f">setTextSize</span>(<span class="n">3</span>);
+  <span class="f">oled</span>.<span class="f">setCursor</span>(<span class="n">40</span>, <span class="n">30</span>);
+  <span class="f">oled</span>.<span class="f">print</span>(count);
+  <span class="f">oled</span>.<span class="f">display</span>();
+}</pre>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h2><span class="ico">🔄</span> طريقة العمل</h2><div class="line"></div></div>
+<div class="timeline">
+<div class="tl-card"><h4>🔦 إرسال</h4><p>الـ KY-008 يطلق شعاع أحمر مستمر ناحية المستقبل في الطرف الآخر.</p></div>
+<div class="tl-card"><h4>👁️ استقبال</h4><p>المستقبل يستقبل الشعاع ويطلع إشارة HIGH ثابتة للأردوينو.</p></div>
+<div class="tl-card"><h4>🚗 قطع</h4><p>زائر يعدّي → الشعاع ينقطع → الإشارة تنزل LOW فجأة.</p></div>
+<div class="tl-card"><h4>🧠 عدّ</h4><p>الأردوينو يكتشف النزول ويزود العداد ويحدّث الشاشة.</p></div>
+<div class="tl-card"><h4>📢 تنبيه</h4><p>البازر يبيب والشاشة تعرض العدد الجديد، والتأخير يمنع التكرار.</p></div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h2><span class="ico">🏆</span> النواتج</h2><div class="line"></div></div>
+<div class="out-grid">
+<div class="out"><div class="em">🎯</div><h4>دقة عالية</h4><p>تقنية فلترة الزمن (Debounce) تضمن عدّ كل زائر مرة واحدة.</p></div>
+<div class="out"><div class="em">⚡</div><h4>سرعة استجابة</h4><p>العدّ يتحدث خلال أجزاء من الثانية من لحظة العبور.</p></div>
+<div class="out"><div class="em">🔋</div><h4>استقلالية</h4><p>يعمل بالبطارية لساعات بعيداً عن أي مصدر كهرباء.</p></div>
+<div class="out"><div class="em">🏢</div><h4>تطبيقات واسعة</h4><p>معارض · مكتبات · محلات · فعاليات · أبواب مؤسسات.</p></div>
+</div>
+</div>
+
+<div class="sum">
+<div class="l">💰 إجمالي التكلفة التقديرية</div>
+<div class="v">1,015 جنيه مصري</div>
+</div>
+
+</div>
+
+<footer>Laser Visitor Counter v2 · Electronics Project · 2026</footer>
+
+</body>
+</html>
